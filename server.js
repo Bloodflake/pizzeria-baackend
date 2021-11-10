@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-import routes from "./routes";
+import routes from "./routes/index";
 
 //DataBase
 const db = "mongodb://localhost/pizza";
