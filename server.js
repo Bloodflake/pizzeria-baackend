@@ -2,14 +2,14 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 import routes from "./routes/index";
+import {APP_PORT, DB_URL} from "./config";
+import errorHandler from "./middlewares/errorHandler";
 
 //DataBase
-const db = "mongodb://localhost/pizza";
-
 const connection = mongoose
-  .connect(db)
+  .connect(DB_URL)
   .then(() => console.log("💻 Mondodb Connected"))
-  .catch(err => console.error(err));
+  .catch(err => console.log(err));
 
 
 app.use(express.urlencoded({ extended: false }));
@@ -18,12 +18,12 @@ app.use(express.json());
 app.use("/api", routes);
 
 app.use("/", (req, res) => {
-  return res.send("hello");
+  return res.send("Welcome to Our Pizza API");
 });
 
+app.use(errorHandler);
 
-
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || APP_PORT;
 app.listen(port, () => {
     console.log(`Server running on port ${port} 🔥`);
 });

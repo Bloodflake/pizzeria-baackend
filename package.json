@@ -6,6 +6,7 @@
   "author": "sumit",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "mongoose": "^6.0.12",

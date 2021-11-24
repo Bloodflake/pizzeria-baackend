@@ -1,17 +1,33 @@
 import Menu from "../models/menu";
+import CustomErrorHandler from "../services/CustomErrorHandler";
+import {DEBUG_MODE} from "../config";
 
-
-export const productsController ={
-    async getMenu(req, res){
+const productsController ={
+    async getMenu(req, res, next){
         let document;
         try{
             document = await Menu.find().sort({_id: -1});
         }
         catch(err){
-            console.log(err);
-            return res.status(500).send("something went wrong");
+            if(DEBUG_MODE === 'true')console.log(`fromproductController.getMenu`,err);
+            return next(CustomErrorHandler.serverError());
+        }
+
+        return res.json(document);
+    },
+
+    async getProduct(req, res, next){
+        let document;
+        try{
+            document = await Menu.find({_id: req.params.id});
+        }
+        catch(err){
+            if(DEBUG_MODE === 'true')console.log(`fromproductController.getProduct`,err)
+            return next(CustomErrorHandler.serverError());
         }
 
         return res.json(document);
     }
-}
+}  
+
+export default productsController;
