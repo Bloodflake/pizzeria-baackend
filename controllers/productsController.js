@@ -16,17 +16,30 @@ const productsController ={
         return res.json(document);
     },
 
-    async getProduct(req, res, next){
+    async getSingleProduct(req, res, next){
         let document;
         try{
             document = await Menu.find({_id: req.params.id});
         }
         catch(err){
-            if(DEBUG_MODE === 'true')console.log(`fromproductController.getProduct`,err)
+            if(DEBUG_MODE === 'true')console.log(`fromproductController.getSingleProduct`,err)
             return next(CustomErrorHandler.serverError());
         }
 
         return res.json(document);
+    },
+
+    async getProducts(req, res, next){
+        let items = [];
+        
+        try{
+            items = await Menu.find({_id: {$in: req.body.items}});
+        }
+        catch(err){
+            if(DEBUG_MODE === 'true')console.log(`fromproductController.getProducts`,err);
+            return next(CustomErrorHandler.serverError());
+        }
+        return res.json(items);
     }
 }  
 
