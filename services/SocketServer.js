@@ -5,13 +5,18 @@ let io;
 export function initSocket(server){
     io = new Server(server);
     io.on("connection", (socket)=>{
-        console.log("connection to socket from service", socket.id);
+        console.log("connection to socket from orderController", socket.id);
+
+        socket.on("join", (roomName)=>{
+            console.log("connection to room ", roomName)
+            socket.join(roomName);
+        });
+
+        socket.on("disconnect", ()=>{
+            console.log("diconnect to socket");
+        });
     })
-      
-      
-    io.on("disconnect", (socket)=>{
-    console.log("diconnect to socket", socket.id);
-    })
+    
 }
 
 export function getSocketIo(){

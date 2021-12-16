@@ -1,6 +1,7 @@
 import CustomErrorHandler from "../services/CustomErrorHandler";
 import {DEBUG_MODE} from "../config";
 import {Order} from "../models"
+import { getSocketIo } from "../services/SocketServer"; 
 
 const orderController = {
     async order(req, res, next){
@@ -52,6 +53,8 @@ const orderController = {
     async updateStatus(req, res, next){
         try{
             await Order.findByIdAndUpdate(req.body.orderid, {status: req.body.status});
+            const io = getSocketIo();
+            io.to(`${req.body.orderid}`).emit("orderUpdated", req.body.status)
             return res.send("order status updated")
         }catch(err){
             console.log(err)
