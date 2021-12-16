@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 import routes from "./routes/index";
 import {APP_PORT, DB_URL} from "./config";
 import errorHandler from "./middlewares/errorHandler";
+import {initSocket} from "./services/SocketServer"
 
 //DataBase
 const connection = mongoose
@@ -24,6 +25,10 @@ app.use("/", (req, res) => {
 app.use(errorHandler);
 
 const port = process.env.PORT || APP_PORT;
-app.listen(port, () => {
+const server  = app.listen(port, () => {
     console.log(`Server running on port ${port} 🔥`);
 });
+
+//socket implementation 
+initSocket(server);
+

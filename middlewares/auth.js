@@ -8,7 +8,8 @@ const auth = async(req, res, next) =>{
     }
 
     const token = authHeader.split(" ")[1];
-    //console.log(token)
+    // console.log("from auth req.header ", req.headers.authorization)
+    // console.log("jwt token ",token)
     try{
         const {_id} = await JwtService.verify(token);
         const user = {
@@ -19,7 +20,7 @@ const auth = async(req, res, next) =>{
         next();
     }
     catch(err){
-        // console.log(err)
+        console.log("auth error ",err)
         return next(CustomErrorHandler.unAuthorized("token invalid"));
     }
 }
