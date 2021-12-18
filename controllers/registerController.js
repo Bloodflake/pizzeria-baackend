@@ -15,7 +15,12 @@ const registerController = {
         const registerSchema = Joi.object({
             name: Joi.string().min(3).max(30).required(),
             email: Joi.string().email().required(),
-            password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required()
+            password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required().error((error) => {
+                error.forEach((err)=>{
+                    err.message = "Invalid password"
+                })
+                return error;
+            })
         });
 
         const {error} = registerSchema.validate(userInfo);
@@ -25,9 +30,9 @@ const registerController = {
 
         try{
             const user = await User.find({email: userInfo.email});
-            console.log(user)
+            // console.log(user)
             if(user.length){
-                return next(CustomErrorHandler.alreadyExist("Enmail is taken"));
+                return next(CustomErrorHandler.alreadyExist("Email is taken"));
             }
         }
         catch(err){
@@ -50,7 +55,7 @@ const registerController = {
         try{
             const result = await user.save();
 
-            console.log(result);
+            // console.log(result);
             access_token = JwtService.sign({_id: result._id});
             refresh_token = JwtService.sign({_id: result._id}, '1y', REFRESH_KEY);
             await RefreshToken.create({token: refresh_token});

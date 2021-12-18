@@ -5,7 +5,7 @@ class CustomErrorHandler  extends Error{
         this.message = msg;
     }
 
-    static serverError(message = "Internal server error"){
+    static serverError(message = "Some Thing went wrong"){
         return new CustomErrorHandler(500, message);
     }
 

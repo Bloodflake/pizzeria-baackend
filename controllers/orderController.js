@@ -27,8 +27,12 @@ const orderController = {
             }
 
             order.items = items;
+            const io = getSocketIo();
 
             const result = await order.save();
+            const newOrder = await Order.findOne({_id: result._id}).populate({path: "user_id", select: "name"}).populate({path: "items", populate:{path: "product_id", select: ["name", "size"]}});
+            io.to("adminRoom").emit("newOrder", newOrder);
+            // console.log(newOrder);
             return res.send("order recived")
         }
         catch(err){

@@ -16,12 +16,12 @@ const loginController = {
 
         const {error} = loginSchema.validate(userInfo);
         if(error){
-            return next(error);
+            return next(CustomErrorHandler.wrongCredential());
         }
 
         try{
             const user = await User.findOne({email: userInfo.email});
-            console.log(user);
+            //console.log(user);
 
             if(!user){
                 return next(CustomErrorHandler.wrongCredential());
