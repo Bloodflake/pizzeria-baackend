@@ -19,4 +19,5 @@ router.get("/admin/order",[auth, admin], orderController.adminOrder);
 router.post("/admin/order", [auth, admin], orderController.updateStatus);
 router.get("/getOrder",auth, orderController.getOrder);
 
+router.get("/isAdmin", [auth, admin], (req, res, next)=>{return res.send("he is Admin")})
 export default router;
