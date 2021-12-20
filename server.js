@@ -2,13 +2,13 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 import routes from "./routes/index";
-import {APP_PORT, DB_URL} from "./config";
+import {APP_PORT, DB_P} from "./config";
 import errorHandler from "./middlewares/errorHandler";
 import {initSocket} from "./services/SocketServer"
 
 //DataBase
 const connection = mongoose
-  .connect(DB_URL)
+  .connect(`mongodb+srv://sumit90990:${DB_P}@pizzeria0.etcrr.mongodb.net/pizza?retryWrites=true&w=majority`)
   .then(() => console.log("💻 Mondodb Connected"))
   .catch(err => console.log(err));
 
