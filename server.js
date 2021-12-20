@@ -5,6 +5,7 @@ import routes from "./routes/index";
 import {APP_PORT, DB_P} from "./config";
 import errorHandler from "./middlewares/errorHandler";
 import {initSocket} from "./services/SocketServer"
+const cors = require('cors');
 
 //DataBase
 const connection = mongoose
@@ -13,6 +14,7 @@ const connection = mongoose
   .catch(err => console.log(err));
 
 
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
