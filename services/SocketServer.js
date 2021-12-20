@@ -3,7 +3,7 @@ const { Server } = require("socket.io");
 let io;
 
 export function initSocket(server){
-    io = new Server(server);
+    io = new Server(server, { origins: '*:*'});
     io.on("connection", (socket)=>{
         // console.log("connection to socket", socket.id);
 
